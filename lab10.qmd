@@ -198,25 +198,20 @@ print(farthest_tomexico_table)
 ```
 
 ```{r}
-# 5. Calculate distance from each US city to the Mexico border
 cities$dist_to_canada <- st_distance(cities, canada)
 
-# 6. Convert distance to numeric kilometers
 cities$dist_to_canada_km <- cities$dist_to_canada %>%
   set_units("km") %>%
   drop_units() %>%
   round(2)
 
-# 7. Convert to data.frame for use with dplyr
 cities_df <- as.data.frame(cities)
 
-# 8. Get top 5 cities farthest from the Mexican border
 farthest_tocanada_cities <- cities_df %>%
   dplyr::select(city = city, state = state_name, distance = dist_to_canada_km) %>%
   dplyr::arrange(desc(distance)) %>%
   dplyr::slice(1:5)
 
-# 9. Create flextable
 farthest_tocanada_table <- flextable(farthest_tocanada_cities) %>%
   autofit()
 ```
